@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>GameZone Store</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+}
+
+/* HEADER */
+
+header{
+background:#020617;
+padding:15px 30px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:26px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+nav input{
+padding:6px;
+border-radius:6px;
+border:none;
+}
+
+/* HERO */
+
+.hero{
+text-align:center;
+padding:50px;
+background:linear-gradient(135deg,#1e293b,#020617);
+}
+
+/* STORE GRID */
+
+.store{
+padding:40px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:20px;
+}
+
+/* GAME CARD */
+
+.game{
+background:#1e293b;
+border-radius:10px;
+overflow:hidden;
+transition:0.2s;
+}
+
+.game:hover{
+transform:scale(1.05);
+}
+
+.game img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.info{
+padding:12px;
+}
+
+.info h3{
+margin:0;
+}
+
+.info p{
+font-size:14px;
+color:#94a3b8;
+}
+
+button{
+padding:8px;
+border:none;
+background:#22c55e;
+border-radius:6px;
+cursor:pointer;
+margin-top:8px;
+}
+
+/* ESTRELLAS */
+
+.stars{
+color:gold;
+font-size:18px;
+}
+
+/* PANEL SUBIR */
+
+.panel{
+background:#1e293b;
+margin:40px auto;
+padding:20px;
+width:320px;
+border-radius:10px;
+text-align:center;
+}
+
+.panel input,
+.panel textarea{
+width:90%;
+padding:8px;
+margin:5px;
+border-radius:6px;
+border:none;
+}
+
+footer{
+text-align:center;
+padding:20px;
+background:#020617;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">🎮 GameZone</div>
+
+<nav>
+<input id="buscar" placeholder="Buscar juego..." onkeyup="buscarJuego()">
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h1>Tienda de Juegos Indie</h1>
+<p>Descubre y publica juegos</p>
+
+</section>
+
+<section class="store" id="store">
+
+<div class="game">
+
+<img src="https://picsum.photos/400/200?game1">
+
+<div class="info">
+
+<h3 class="titulo">Pixel Adventure</h3>
+
+<p>Aventura pixel clásica.</p>
+
+<div class="stars">⭐⭐⭐⭐</div>
+
+<button onclick="alert('Descarga disponible')">
+Descargar
+</button>
+
+</div>
+</div>
+
+</section>
+
+<section class="panel">
+
+<h2>Subir juego</h2>
+
+<input id="titulo" placeholder="Nombre del juego">
+
+<textarea id="descripcion" placeholder="Descripción"></textarea>
+
+<p>Imagen del juego</p>
+<input type="file" id="imagen" accept="image/*">
+
+<p>Archivo del juego</p>
+<input type="file" id="archivo">
+
+<br><br>
+
+<button onclick="publicar()">Publicar</button>
+
+</section>
+
+<footer>
+© 2026 GameZone
+</footer>
+
+<script>
+
+/* PUBLICAR JUEGO */
+
+function publicar(){
+
+let titulo=document.getElementById("titulo").value
+let descripcion=document.getElementById("descripcion").value
+
+let imagen=document.getElementById("imagen").files[0]
+let archivo=document.getElementById("archivo").files[0]
+
+let imgURL=""
+let fileURL=""
+
+if(imagen){
+imgURL=URL.createObjectURL(imagen)
+}
+
+if(archivo){
+fileURL=URL.createObjectURL(archivo)
+}
+
+let game=document.createElement("div")
+game.className="game"
+
+game.innerHTML=`
+
+<img src="${imgURL}">
+
+<div class="info">
+
+<h3 class="titulo">${titulo}</h3>
+
+<p>${descripcion}</p>
+
+<div class="stars">⭐⭐⭐⭐⭐</div>
+
+<a href="${fileURL}" download>
+<button>Descargar</button>
+</a>
+
+</div>
+
+`
+
+document.getElementById("store").appendChild(game)
+
+}
+
+/* BUSCAR JUEGOS */
+
+function buscarJuego(){
+
+let input=document.getElementById("buscar").value.toLowerCase()
+let juegos=document.querySelectorAll(".game")
+
+juegos.forEach(juego=>{
+
+let titulo=juego.querySelector(".titulo").innerText.toLowerCase()
+
+if(titulo.includes(input)){
+juego.style.display="block"
+}else{
+juego.style.display="none"
+}
+
+})
+
+}
+
+</script>
+
+</body>
+</html>
